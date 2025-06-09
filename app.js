@@ -1,4 +1,4 @@
-import { getRandomNumber, getRainbowColor } from './luckyModule.js';
+import { getRandomNumber, getRainbowColor, getEmojiNumber } from './luckyModule.js';
 
 const playButton = document.getElementById('playButton');
 const resultEl = document.getElementById('result');
@@ -44,12 +44,12 @@ function animateReel(reelInner, finalNumber) {
   let contentHTML = '';
   for (let i = 0; i < cycles; i++) {
     for (let num = 1; num <= 9; num++) {
-      contentHTML += `<div class="reel-number" style="color: ${getRainbowColor(num)};">${num}</div>`;
+      contentHTML += `<div class="reel-number" style="color: ${getRainbowColor(num)};">${getEmojiNumber(num)}</div>`;
     }
   }
   // Append the final partial cycle (numbers 1 to finalNumber)
   for (let num = 1; num <= finalNumber; num++) {
-    contentHTML += `<div class="reel-number" style="color: ${getRainbowColor(num)};">${num}</div>`;
+    contentHTML += `<div class="reel-number" style="color: ${getRainbowColor(num)};">${getEmojiNumber(num)}</div>`;
   }
   reelInner.innerHTML = contentHTML;
 
