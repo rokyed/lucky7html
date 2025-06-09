@@ -2,12 +2,34 @@ import { getRandomNumber, getRainbowColor } from './luckyModule.js';
 
 const playButton = document.getElementById('playButton');
 const resultEl = document.getElementById('result');
+const creditsEl = document.getElementById('credits');
+
+let credits = 100;
+const costPerRound = 5;
+
+// Array of winning combinations and the points they pay out
+const winningCombinations = [
+  { combo: [7, 7, 7], points: 100 },
+  { combo: [6, 6, 6], points: 50 },
+  { combo: [5, 5, 5], points: 40 },
+  { combo: [4, 4, 4], points: 30 },
+  { combo: [3, 3, 3], points: 20 },
+  { combo: [2, 2, 2], points: 10 },
+  { combo: [1, 2, 3], points: 5 }
+];
+
+function updateCreditsDisplay() {
+  creditsEl.textContent = `Credits: ${credits}`;
+}
 // Get the inner container of each reel
 const reelElements = [
   document.querySelector('#reel1 .reel-inner'),
   document.querySelector('#reel2 .reel-inner'),
   document.querySelector('#reel3 .reel-inner')
 ];
+
+// Display starting credits
+updateCreditsDisplay();
 
 const itemHeight = 80; // height (px) of each number
 const cycles = 3;      // full cycles of numbers (1 to 9) before stopping
@@ -44,6 +66,14 @@ function animateReel(reelInner, finalNumber) {
 }
 
 playButton.addEventListener('click', () => {
+  if (credits < costPerRound) {
+    resultEl.textContent = 'Not enough credits!';
+    return;
+  }
+
+  credits -= costPerRound;
+  updateCreditsDisplay();
+
   playButton.disabled = true;
   // Clear any previous result.
   resultEl.textContent = '';
@@ -76,13 +106,19 @@ playButton.addEventListener('click', () => {
 
   // Check the win condition after the longest animation completes.
   setTimeout(() => {
-    if (finalNumbers[0] === 7 && finalNumbers[1] === 7 && finalNumbers[2] === 7) {
-      resultEl.textContent = 'Lucky Seven! You win!';
+    const win = winningCombinations.find(entry =>
+      entry.combo.every((num, idx) => num === finalNumbers[idx])
+    );
+
+    if (win) {
+      credits += win.points;
+      resultEl.textContent = `You win ${win.points} credits!`;
     } else {
       resultEl.textContent = 'Try again!';
     }
 
-    playButton.disabled = false;
+    updateCreditsDisplay();
+    playButton.disabled = credits < costPerRound;
   }, 1500 + (reelElements.length - 1) * 200);
 });
 
