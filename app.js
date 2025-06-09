@@ -1,4 +1,4 @@
-import { getRandomNumber, getRainbowColor, getEmojiNumber } from './luckyModule.js';
+import { getRandomNumber, getRainbowColor, getEmojiNumber, slotSymbols } from './luckyModule.js';
 
 const playButton = document.getElementById('playButton');
 const resultEl = document.getElementById('result');
@@ -31,19 +31,20 @@ const reelElements = [
 // Display starting credits
 updateCreditsDisplay();
 
-const itemHeight = 80; // height (px) of each number
-const cycles = 3;      // full cycles of numbers (1 to 9) before stopping
+const numSymbols = slotSymbols.length;
+const itemHeight = 80; // height (px) of each symbol
+const cycles = 3;      // full cycles of symbols before stopping
 
 /**
  * Animates a reel element by dynamically building its content and scrolling upward.
  * @param {HTMLElement} reelInner - The inner container for the reel.
- * @param {number} finalNumber - The final number (1-9) to stop on.
+ * @param {number} finalNumber - The final symbol index to stop on.
  */
 function animateReel(reelInner, finalNumber) {
-  // Build the reel content: full cycles (1-9) then a partial cycle ending with finalNumber.
+  // Build the reel content: full cycles of all symbols then a partial cycle ending with finalNumber.
   let contentHTML = '';
   for (let i = 0; i < cycles; i++) {
-    for (let num = 1; num <= 9; num++) {
+    for (let num = 1; num <= numSymbols; num++) {
       contentHTML += `<div class="reel-number" style="color: ${getRainbowColor(num)};">${getEmojiNumber(num)}</div>`;
     }
   }
@@ -57,7 +58,7 @@ function animateReel(reelInner, finalNumber) {
   void reelInner.offsetWidth;
 
   // Total number of items in this reel.
-  const totalItems = cycles * 9 + finalNumber;
+  const totalItems = cycles * numSymbols + finalNumber;
   // Calculate the final offset so that the last item (the final number) is shown.
   const finalOffset = -((totalItems - 1) * itemHeight);
 
@@ -80,9 +81,9 @@ playButton.addEventListener('click', () => {
 
   // Generate final numbers for each reel.
   const finalNumbers = [
-    getRandomNumber(1, 9),
-    getRandomNumber(1, 9),
-    getRandomNumber(1, 9)
+    getRandomNumber(1, numSymbols),
+    getRandomNumber(1, numSymbols),
+    getRandomNumber(1, numSymbols)
   ];
 
   // Reset all reels to starting position (translateY(0))

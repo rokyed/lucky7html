@@ -5,7 +5,7 @@ export function getRandomNumber(min, max) {
 
 // Function to return a rainbow color based on the number
 export function getRainbowColor(num) {
-  // Map numbers 1 through 9 to a set of rainbow-inspired colors
+  // Map numbers 1 through 13 to a set of rainbow-inspired colors
   const rainbowColors = {
     1: '#FF0000',   // Red
     2: '#FF7F00',   // Orange
@@ -15,24 +15,33 @@ export function getRainbowColor(num) {
     6: '#4B0082',   // Indigo
     7: '#8F00FF',   // Violet
     8: '#FF1493',   // Deep Pink
-    9: '#00CED1'    // Dark Turquoise
+    9: '#00CED1',   // Dark Turquoise
+    10: '#FFD700',  // Gold
+    11: '#00FF7F',  // Spring Green
+    12: '#DC143C',  // Crimson
+    13: '#1E90FF'   // Dodger Blue
   };
   return rainbowColors[num] || '#FFFFFF';
 }
 
-// Map numbers to emoji digits for display
+export const slotSymbols = [
+  '🍒', // Cherry
+  '🔔', // Bell
+  '🍋', // Lemon
+  '🍇', // Grapes
+  '🍊', // Orange
+  '7️⃣', // Number 7
+  '💎', // Diamond
+  '⭐', // Star
+  '🍉', // Watermelon
+  '🍀', // Four-leaf clover
+  '🃏', // Joker
+  '💰', // Money bag
+  '🎰'  // Slot machine
+];
+
+// Map numbers to slot symbols for display
 export function getEmojiNumber(num) {
-  const emojiNumbers = {
-    1: '1\uFE0F\u20E3', // 1️⃣
-    2: '2\uFE0F\u20E3',
-    3: '3\uFE0F\u20E3',
-    4: '4\uFE0F\u20E3',
-    5: '5\uFE0F\u20E3',
-    6: '6\uFE0F\u20E3',
-    7: '7\uFE0F\u20E3',
-    8: '8\uFE0F\u20E3',
-    9: '9\uFE0F\u20E3'
-  };
-  return emojiNumbers[num] || '?';
+  return slotSymbols[num - 1] || '?';
 }
 
